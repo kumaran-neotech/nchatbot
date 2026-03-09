@@ -1,4 +1,6 @@
-flask
-openai
-flask-cors
+fastapi
+uvicorn
 gunicorn
+openai
+python-dotenv
+pydantic
