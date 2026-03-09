@@ -4,9 +4,7 @@ services:
     env: python
     plan: free
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn main:app
+    startCommand: gunicorn main:app -k uvicorn.workers.UvicornWorker
     envVars:
       - key: PYTHON_VERSION
         value: 3.10.0
-      - key: OPENAI_API_KEY
-        sync: false
