@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: nchatbot-app
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app # Replace 'app:app' with your 'filename:variable'
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.0
+      - key: SECRET_KEY
+        generateValue: true
