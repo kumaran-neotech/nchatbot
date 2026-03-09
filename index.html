@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>IN Gen AI Gov Bot</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+<div class="logo">🇮🇳 GovAI</div>
+
+<ul class="nav-links">
+<li>Home</li>
+<li>Schemes</li>
+<li>Support</li>
+</ul>
+
+</nav>
+
+
+<!-- HERO SECTION -->
+
+<section class="hero">
+
+<h1>IN Gen AI Government Assistant</h1>
+
+<p>Ask about scholarships, agriculture, jobs and more</p>
+
+
+<!-- FEATURE CARDS -->
+
+<div class="cards">
+
+<div class="card">
+🎓
+<h3>Scholarships</h3>
+<p>Find student support programs</p>
+</div>
+
+<div class="card">
+🌾
+<h3>Agriculture</h3>
+<p>Explore farmer welfare schemes</p>
+</div>
+
+<div class="card">
+💼
+<h3>Jobs</h3>
+<p>Discover employment schemes</p>
+</div>
+
+</div>
+
+
+<!-- CHAT PANEL -->
+
+<div class="chat-panel">
+
+<div id="chat-area"></div>
+
+<div class="input-area">
+
+<input id="userMessage" placeholder="Ask about government schemes..." />
+
+<button onclick="startVoice()">🎤</button>
+
+<button onclick="sendMessage()">Send</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<script>
+
+const chatArea = document.getElementById("chat-area");
+
+async function sendMessage(){
+
+const input = document.getElementById("userMessage");
+const message = input.value.trim();
+
+if(!message) return;
+
+addMessage(message,"user");
+
+const typing = addMessage("Typing...","bot");
+
+try{
+
+const res = await fetch("http://127.0.0.1:8000/ask",{
+
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({question:message})
+
+});
+
+const data = await res.json();
+
+typing.remove();
+
+addMessage(data.answer,"bot");
+
+}
+
+catch{
+
+typing.innerHTML="Server error";
+
+}
+
+input.value="";
+
+}
+
+function addMessage(text,type){
+
+const div = document.createElement("div");
+
+div.className = "message "+type;
+
+div.innerHTML = text;
+
+chatArea.appendChild(div);
+
+chatArea.scrollTop = chatArea.scrollHeight;
+
+return div;
+
+}
+
+function startVoice(){
+
+const recognition = new(window.SpeechRecognition || window.webkitSpeechRecognition)();
+
+recognition.lang="en-IN";
+
+recognition.start();
+
+recognition.onresult = function(event){
+
+document.getElementById("userMessage").value = event.results[0][0].transcript;
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
