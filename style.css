@@ -6,7 +6,7 @@ font-family:'Poppins',sans-serif;
 }
 
 
-/* BEAUTIFUL GRADIENT BACKGROUND */
+
 
 body{
 
@@ -21,7 +21,7 @@ animation:bgmove 12s infinite alternate;
 }
 
 
-/* GRADIENT ANIMATION */
+
 
 @keyframes bgmove{
 
@@ -31,7 +31,7 @@ animation:bgmove 12s infinite alternate;
 }
 
 
-/* NAVBAR */
+
 
 .navbar{
 
@@ -78,7 +78,7 @@ transform:scale(1.1);
 }
 
 
-/* HERO */
+
 
 .hero{
 
@@ -109,7 +109,7 @@ font-size:17px;
 }
 
 
-/* FEATURE CARDS */
+
 
 .cards{
 
@@ -164,7 +164,6 @@ opacity:0.9;
 }
 
 
-/* CHAT PANEL */
 
 .chat-panel{
 
@@ -185,7 +184,7 @@ box-shadow:0 10px 30px rgba(0,0,0,0.25);
 }
 
 
-/* CHAT AREA */
+
 
 #chat-area{
 
@@ -198,7 +197,7 @@ margin-bottom:15px;
 }
 
 
-/* CHAT BUBBLES */
+
 
 .message{
 
@@ -233,7 +232,7 @@ color:#333;
 }
 
 
-/* INPUT AREA */
+
 
 .input-area{
 
@@ -258,7 +257,6 @@ outline:none;
 }
 
 
-/* BUTTON */
 
 button{
 
@@ -285,7 +283,7 @@ transform:scale(1.08);
 }
 
 
-/* MESSAGE ANIMATION */
+
 
 @keyframes fade{
 
