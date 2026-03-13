@@ -5,26 +5,19 @@ import openai
 import os
 from dotenv import load_dotenv
 
-# -----------------------------
-# Load OpenAI API key from .env
-# -----------------------------
+
 load_dotenv()
-# FIX 1: You were assigning to openai_api_key (local var)
-# instead of openai.api_key (the library config)
+
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-# -----------------------------
-# Initialize FastAPI app
-# -----------------------------
+
 app = FastAPI(
     title="SmartGov AI Assistant",
     description="AI chatbot to help citizens understand Indian government schemes",
     version="1.0"
 )
 
-# -----------------------------
-# Allow frontend to access backend
-# -----------------------------
+
 origins = ["*"]
 app.add_middleware(
     CORSMiddleware,
@@ -34,9 +27,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# -----------------------------
-# Local Government Schemes Database
-# -----------------------------
+
 gov_schemes = {
     "pm kisan": {
         "name": "PM-Kisan",
@@ -56,17 +47,13 @@ gov_schemes = {
     }
 }
 
-# -----------------------------
-# Request Model
-# -----------------------------
+
 class Question(BaseModel):
     question: str
     response_type: str = "concise"
     language: str = "english"
 
-# -----------------------------
-# Helper function to format response
-# -----------------------------
+
 def format_local_response(info, response_type):
     if response_type == "bullet":
         return f"• Scheme: {info['name']}\n• Benefit: {info['info']}\n• Apply through: Government portal or nearest CSC"
@@ -75,22 +62,20 @@ def format_local_response(info, response_type):
     else:
         return f"{info['name']}: {info['info']}"
 
-# -----------------------------
-# Chatbot Endpoint
-# -----------------------------
+
 @app.post("/ask")
 async def ask_question(q: Question): # Added 'async' for better FastAPI performance
     user_question = q.question.lower()
     response_type = q.response_type
     language = q.language
 
-    # Check local scheme database first
+    
     for scheme in gov_schemes:
         if scheme in user_question:
             answer = format_local_response(gov_schemes[scheme], response_type)
             return {"answer": answer}
 
-    # If not found locally, fallback to OpenAI GPT
+   
     try:
         prompt = f"""
         You are an AI assistant that helps citizens understand Indian government schemes.
@@ -99,9 +84,7 @@ async def ask_question(q: Question): # Added 'async' for better FastAPI performa
         Language: {language}
         """
        
-        # FIX 2: Check your openai version.
-        # If you are using openai v1.0+, the old .ChatCompletion.create will fail.
-        # This is the newer style compatible with the latest library:
+        
         response = openai.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
